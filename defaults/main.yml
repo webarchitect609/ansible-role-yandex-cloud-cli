@@ -1,0 +1,4 @@
+---
+yc_cli_source: "https://storage.yandexcloud.net/yandexcloud-yc/install.sh"
+yc_cli_install_path: "${HOME}/yandex-cloud"
+yc_cli_shell_options: "-a"

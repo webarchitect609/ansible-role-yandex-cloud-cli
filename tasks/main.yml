@@ -1,0 +1,34 @@
+---
+
+- name: "Check if Yandex Cloud cli is installed"
+  ansible.builtin.command: "test -d {{ yc_cli_install_path }}"
+  changed_when: false
+  failed_when: false
+  register: yc_cli_installed
+
+- name: "Yandex Cloud cli installation"
+  when: yc_cli_installed.rc != 0
+  block:
+
+    - name: "Ensure curl is installed"
+      ansible.builtin.apt:
+        name: "curl"
+        state: "present"
+        update_cache: "yes"
+
+    - name: "Download the installation script"
+      ansible.builtin.get_url:
+        url: "{{ yc_cli_source }}"
+        dest: "{{ yc_cli_tmp_install }}"
+        mode: 0600
+
+    - name: "Install Yandex Cloud cli"
+      ansible.builtin.shell: |
+          cat "{{ yc_cli_tmp_install }}" | \
+          bash -s -- -i "{{ yc_cli_install_path }}" {{ yc_cli_shell_options }}
+      changed_when: false
+
+    - name: "Remove the installation script"
+      ansible.builtin.file:
+        path: "{{ yc_cli_tmp_install }}"
+        state: "absent"

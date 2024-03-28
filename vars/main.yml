@@ -1,0 +1,4 @@
+---
+
+yc_cli_tmp_install: "/tmp/install.sh"
+yc_cli_command: "yc"
