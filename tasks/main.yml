@@ -37,4 +37,3 @@
           ansible.builtin.file:
             path: "{{ yc_cli_tmp_install }}"
             state: "absent"
-
