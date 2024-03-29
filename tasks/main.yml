@@ -1,5 +1,12 @@
 ---
 
+- name: "Ensure curl is present"
+  ansible.builtin.apt:
+    name: "curl"
+    state: "present"
+    update_cache: true
+    cache_valid_time: 3600
+
 - name: "Work for specific user only"
   become: true
   become_user: "{{ yc_cli_user }}"
@@ -14,12 +21,6 @@
     - name: "Yandex Cloud cli installation"
       when: yc_cli_installed.rc != 0
       block:
-
-        - name: "Ensure curl is installed"
-          ansible.builtin.apt:
-            name: "curl"
-            state: "present"
-            update_cache: true
 
         - name: "Download the installation script"
           ansible.builtin.get_url:
